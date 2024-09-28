@@ -2,4 +2,8 @@ docker run --name mongodb -p 27017:27017 -v c:/data:/data/db -d mongodb/mongodb-
 
 npm run server -> nodemon
 
-https://www.youtube.com/watch?v=dscD8neS-1E
+corpo da rota /cadastro
+
+          nome: user.nome,
+          email: user.email,
+          senha: hashPassword,
