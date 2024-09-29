@@ -9,13 +9,13 @@ const JWT_SECRET = process.env.JWT_SECRET
 
 router.post("/cadastro", async (req, res) => {
     try {
-      const usuario = req.body;
+      const dadosUsuario = req.body;
       const salt = await bcrypt.genSalt(10);
-      const hashPassword = await bcrypt.hash(usuario.senha, salt);
-      const userDB = await prisma.usuarios.create({
+      const hashPassword = await bcrypt.hash(dadosUsuario.senha, salt);
+      const userDB = await prisma.usuario.create({
         data: {
-            email: usuario.email,
-            nome: usuario.nome,
+            email: dadosUsuario.email,
+            nome: dadosUsuario.nome,
             senha: hashPassword,
         },
       });
@@ -28,7 +28,7 @@ router.post("/cadastro", async (req, res) => {
 router.post("/login", async (req,res) => {
     try{
         const userInfo = req.body;
-        const user = await prisma.usuarios.findUnique({
+        const user = await prisma.usuario.findUnique({
             where:{email:userInfo.email},
         });
         if(!user){
@@ -42,8 +42,6 @@ router.post("/login", async (req,res) => {
         const token = jwt.sign({
             id:user.id, //
         }, JWT_SECRET, {expiresIn:'7d'});
-        console.log(token);
-
         res.status(200).json(token);
     }catch(error){
         res.status(500).json({message:"erro no servidor! tente mais uma vez"});
