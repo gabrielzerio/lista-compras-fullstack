@@ -4,11 +4,11 @@ import express from "express";
 const prisma = new PrismaClient();
 const router = express.Router();
 
-router.post("/lista", async (req, res) => {
-  try{
+router.get("/lista", async (req, res) => {
+   try{
     const produtos = await prisma.usuario.findUnique({
-    where: { id: req.body.id_usuario },
-    include: { itens: true }
+    where: { id: req.id_usuario },
+    select: { itens: true }
   });
   res.status(200).json(produtos);
 }catch(error){
@@ -20,7 +20,7 @@ router.post("/novoItem" , async(req,res) => {
     try{
     const produtoNovo = await prisma.item.create({
         data: {
-          id_usuario:req.body.id_usuario,
+          id_usuario:req.id_usuario,
           produto:req.body.produto,
           qtd:req.body.qtd,
           data: new Date(),

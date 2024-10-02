@@ -63,7 +63,6 @@ function ListaCompra() {
       {itens.map((produto) => (
         <Item key={produto.id} produto={produto} />
       ))}
-      ;
     </>
   );
 }

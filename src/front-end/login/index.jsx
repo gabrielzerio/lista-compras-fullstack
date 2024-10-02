@@ -1,15 +1,23 @@
 import { useRef } from "react";
 import handleLogin from '../scripts/scriptLogin.js';
 import { LoginModel } from "../objetos/itemModel.js";
+import { useNavigate } from "react-router-dom";
 function LoginPage() {
   const emailRef = useRef();
   const passwordRef = useRef();
+  const navigate = useNavigate();
 
-  function handleSubmit(e){
+  async function handleSubmit(e){
     e.preventDefault();
     const userLogin = new LoginModel(emailRef.current.value, passwordRef.current.value);
-    handleLogin(userLogin);
+    const resultado = await handleLogin(userLogin);
+    if(resultado == null){
+      return;
+    }                       //tratar os responses de forma correta
+    localStorage.setItem('token',resultado);
+    navigate("/lista-compra");
    }
+
   return (
     <div className="max-w-md mx-auto mt-10 bg-white p-8 border border-gray-300 rounded-lg shadow-lg ">
         <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Login</h2>

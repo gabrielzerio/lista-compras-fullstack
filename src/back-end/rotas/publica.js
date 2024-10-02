@@ -21,6 +21,7 @@ router.post("/cadastro", async (req, res) => {
       });
       res.status(201).json(userDB);
     } catch (err) {
+        console.log(err);
       res.status(500).json({ message: "Erro no servidor, tente novamente" });
     }
   });
@@ -40,11 +41,12 @@ router.post("/login", async (req,res) => {
         }
         
         const token = jwt.sign({
-            id:user.id, //
+            id:user.id, 
         }, JWT_SECRET, {expiresIn:'7d'});
         res.status(200).json(token);
     }catch(error){
         res.status(500).json({message:"erro no servidor! tente mais uma vez"});
+        console.log(error);
     }
 });
 

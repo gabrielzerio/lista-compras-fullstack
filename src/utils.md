@@ -1,4 +1,6 @@
-docker run --name mongodb -p 27017:27017 -v c:/data:/data/db -d mongodb/mongodb-community-server:latest
+docker pull prismagraphql/mongo-single-replica:5.0.3
+docker run --name mongoreplica -p 27017:27017 -e MONGO_INITDB_ROOT_USERNAME="gabriel" -e MONGO_INITDB_ROOT_PASSWORD="senha@123" -d prismagraphql/mongo-single-replica:5.0.3
+
 
 npm run server -> nodemon
 
@@ -8,4 +10,4 @@ body da rota /cadastro
 
           nome: user.nome,
           email: user.email,
-          senha: hashPassword,
+          senha: hashPassword,v
