@@ -1,15 +1,19 @@
 /* eslint-disable react/prop-types */
-export function Item({ produto }) {
+export function Item({produto}) {
+  const dataLocal = new Date(produto.data).toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo" });
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 bg-white shadow-md rounded-lg border border-gray-300">
+    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 p-4 bg-white shadow-md rounded-lg border border-gray-300">
       <div className="p-3 bg-gray-100 text-lg font-semibold rounded">
-        {produto.nome}
+      <span className="font-bold">Item: </span>{produto.produto}
       </div>
       <div className="p-3 bg-gray-50 text-gray-700 rounded">
-        <span className="font-bold">Quantidade:</span> {produto.qtd}
+        <span className="font-bold">Quantidade: </span> {produto.qtd}
       </div>
       <div className="p-3 bg-gray-50 text-gray-700 rounded">
-        <span className="font-bold">Solicitante:</span> {produto.usuario}
+        <span className="font-bold">Solicitante: </span> {produto.solicitante}
+      </div>
+      <div className="p-3 bg-gray-50 text-gray-700 rounded">
+        <span className="font-bold">Adicionado: </span> {dataLocal}
       </div>
     </div>
   );

@@ -8,7 +8,7 @@ router.get("/lista", async (req, res) => {
    try{
     const produtos = await prisma.usuario.findUnique({
     where: { id: req.id_usuario },
-    select: { itens: true }
+    include: { itens: true }
   });
   res.status(200).json(produtos);
 }catch(error){

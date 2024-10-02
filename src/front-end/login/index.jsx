@@ -3,20 +3,22 @@ import handleLogin from '../scripts/scriptLogin.js';
 import { LoginModel } from "../objetos/itemModel.js";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
+import { LoginContext } from "../App.jsx";
+
 function LoginPage() {
   const emailRef = useRef();
   const passwordRef = useRef();
   const navigate = useNavigate();
-  // const theme = useContext(ThemeContext);
-  // console.log(theme);
+  const {setToken }= useContext(LoginContext);
+
   async function handleSubmit(e) {
     e.preventDefault();
     const userLogin = new LoginModel(emailRef.current.value, passwordRef.current.value);
-    const resultado = await handleLogin(userLogin);
-    if (resultado == null) {
+    const token = await handleLogin(userLogin);
+    if (token == null) {
       return;
-    }                       //tratar os responses de forma correta
-    localStorage.setItem('token', resultado);
+    }
+    setToken(token)                       //tratar os responses de forma correta
     navigate("/lista-compra");
   }
 

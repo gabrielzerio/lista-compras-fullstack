@@ -1,19 +1,22 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom"
-import { createContext } from "react";
-
+import { createContext, useState } from "react";
 import Login from "./login/index.jsx";
 import ListaCompra from "./lista/listaCompras.jsx";
-const ThemeContext = createContext(null);
+
+export const LoginContext = createContext();
+
 function App() {
+    const [token, setToken] = useState();
+
     return (
-        <ThemeContext.Provider value="azul">
+        <LoginContext.Provider value={{token,setToken}}>
             <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<Login />} />
                     <Route path="/lista-compra" element={<ListaCompra />} />
                 </Routes>
             </BrowserRouter>
-        </ThemeContext.Provider>
+        </LoginContext.Provider>
     )
 }
 
