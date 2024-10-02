@@ -7,8 +7,8 @@ function LoginPage() {
   const emailRef = useRef();
   const passwordRef = useRef();
   const navigate = useNavigate();
-  const theme = useContext(ThemeContext);
-  console.log(theme);
+  // const theme = useContext(ThemeContext);
+  // console.log(theme);
   async function handleSubmit(e) {
     e.preventDefault();
     const userLogin = new LoginModel(emailRef.current.value, passwordRef.current.value);

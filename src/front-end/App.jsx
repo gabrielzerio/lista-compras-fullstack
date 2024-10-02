@@ -3,10 +3,10 @@ import { createContext } from "react";
 
 import Login from "./login/index.jsx";
 import ListaCompra from "./lista/listaCompras.jsx";
-const ThemeContext = createContext("VERDÃO");
+const ThemeContext = createContext(null);
 function App() {
     return (
-        <ThemeContext.Provider>
+        <ThemeContext.Provider value="azul">
             <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<Login />} />
