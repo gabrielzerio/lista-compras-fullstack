@@ -6,3 +6,9 @@ export class ItemModel{
         this.usuario = usuario
     }
 }
+export class LoginModel{
+    constructor(email, senha){
+        this.email = email,
+        this.senha = senha
+    }
+}
