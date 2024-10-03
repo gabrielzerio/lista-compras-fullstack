@@ -3,13 +3,15 @@ import handleLogin from '../scripts/scriptLogin.js';
 import { LoginModel } from "../objetos/itemModel.js";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
-import { LoginContext } from "../App.jsx";
 
 function LoginPage() {
   const emailRef = useRef();
   const passwordRef = useRef();
   const navigate = useNavigate();
-  const {setToken }= useContext(LoginContext);
+
+  function setToken(token){
+    localStorage.setItem('tkn', token);
+  }
 
   async function handleSubmit(e) {
     e.preventDefault();

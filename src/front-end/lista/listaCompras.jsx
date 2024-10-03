@@ -1,52 +1,13 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Item } from "./item";
 import { ItemModel } from "../objetos/itemModel";
-import { LoginContext } from "../App";
+import { fetchItens } from "../scripts/scriptListaItens.js";
+import { adicionaItem } from "../scripts/scriptAdicionaItem.js";
 
 function ListaCompra() {
-
-  const {token} = useContext(LoginContext);
-
+  const token = localStorage.getItem('tkn');
   const [itens, setItens] = useState([]);
-  const [solicitante, setSolicitante] = useState('');
-
-  useEffect(() => {
-    const fetchItens = async () => {
-      try {
-        const response = await fetch("http://localhost:3000/lista", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`, // Passa o token JWT no cabeçalho
-          },
-        });
-
-        if (response.ok) {
-
-          const data = await response.json();
-          const itensComNome = data.itens.map(item => ({
-            ...item,
-            solicitante: data.nome
-          }));
-          setSolicitante(data.nome);
-          setItens(itensComNome); 
-        } else {
-          console.error("Erro ao buscar produtos", response.status);
-        }
-      } catch (error) {
-        console.error("Erro na requisição", error);
-      }
-    };
-
-    if (token) {
-
-      fetchItens(); // Faz a requisição apenas se o token estiver disponível
-    }
-  }, [token]);
-  
-
-
-
+  const [solicitante, setSolicitante] = useState([]);
   const [nomeProduto, setNomeProduto] = useState("");
   const [qtdProduto, setQtdProduto] = useState("");
 
@@ -58,13 +19,27 @@ function ListaCompra() {
   };
 
   const handleAdicionaProduto = () => {
-    console.log("alegria");
+    const novoItem = new ItemModel(nomeProduto, qtdProduto, solicitante[1]);
+    adicionaItem(novoItem);
+
+    handleLista();
   };
 
+  const handleLista = async () => {
+    const data = await fetchItens(token);
+    setItens(data['itens']);
+    setSolicitante(data['solicitante']);
+    // console.log(solicitante);
+  }
+
+  useEffect(() => {
+    handleLista();
+      
+    },[])
 
   return (
     <>
-      <div className="bg-blue-400 p-3 text-lg font-bold">Usuario: {solicitante}</div>
+      <div className="bg-blue-400 p-3 text-lg font-bold">Usuario: {solicitante[0]}</div>
       <div className="p-4 bg-gray-50 rounded-lg shadow-md flex flex-col md:flex-row items-start md:items-center gap-4">
         <input
           className="border border-gray-300 rounded-lg p-2 w-full md:w-auto focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -90,9 +65,9 @@ function ListaCompra() {
         </button>
       </div>
       { itens.map((produto) => (
-        <Item key={produto.id} produto={produto} />
+        <Item key={produto.id} produto={produto} solicitante={solicitante[0]}  />
       ))}
-
+      
     </>
   );
 }
