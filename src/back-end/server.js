@@ -1,6 +1,7 @@
 import express from 'express'
 import rotasPublicas from './rotas/publica.js';
 import rotasPrivadas from './rotas/privada.js';
+import { adicionaItem } from '../front-end/scripts/scriptAdicionaItem.js';
 import auth from './middlewares/auth.js';
 import cors from 'cors'
 

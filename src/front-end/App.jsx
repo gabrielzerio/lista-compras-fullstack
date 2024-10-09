@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./login/index.jsx";
-import ListaCompra from "./lista/listaCompras.jsx";
+import ListaCompra from "./lista/listaCompra.jsx";
 
 function App() {
   return (

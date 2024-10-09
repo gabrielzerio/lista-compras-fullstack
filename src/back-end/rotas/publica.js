@@ -32,6 +32,7 @@ router.post("/login", async (req,res) => {
         const user = await prisma.usuario.findUnique({
             where:{email:userInfo.email},
         });
+        console.log(user);
         if(!user){
             return res.status(400).json({message:"usuario não encontrado"});
         }
@@ -42,6 +43,8 @@ router.post("/login", async (req,res) => {
         
         const token = jwt.sign({
             id:user.id, 
+            email:user.email,
+            nome:user.nome
         }, JWT_SECRET, {expiresIn:'7d'});
         res.status(200).json(token);
     }catch(error){

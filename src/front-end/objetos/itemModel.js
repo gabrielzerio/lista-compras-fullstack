@@ -1,8 +1,9 @@
 export class ItemModel{
-    constructor(nome, qtd, usuario){
+    constructor(nome, qtd, lista, solicitante){
         this.nome = nome,
         this.qtd = qtd,
-        this.usuario = usuario
+        this.lista = lista,
+        this.solicitante = solicitante //SERA FORNECIDO O ID do banco(mongo)
     }
 }
 export class LoginModel{
