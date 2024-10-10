@@ -1,5 +1,4 @@
 export async function adicionaItem(item, token) {
-    console.log(item);
     try {
     
     const response = await fetch("http://localhost:3000/novoItem", {

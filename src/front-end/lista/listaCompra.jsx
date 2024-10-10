@@ -28,7 +28,7 @@ const id_usuario = payload.id
   };
 
   const handleAdicionaProduto = async () => {
-    const novoItem = new ItemModel(nomeProduto, parseInt(qtdProduto), "66f708a785ec7101e05e6177", id_usuario);
+    const novoItem = new ItemModel(nomeProduto, parseInt(qtdProduto), "66f708a785ec7101e05e6177", id_usuario, usuario);
     const retorno = await adicionaItem(novoItem, token);
 
     console.log(retorno);

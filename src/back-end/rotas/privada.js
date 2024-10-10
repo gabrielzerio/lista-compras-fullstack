@@ -19,7 +19,12 @@ router.get("/lista-pessoal", async (req, res) => {
 router.get("/lista-geral", async (req, res) => {
   
   try {
-    const produtos = await prisma.item.findMany();
+    const produtos = await prisma.item.findMany({
+      include:{
+        usuario:true
+      }
+    });
+    
     res.status(200).json(produtos);
   } catch (error) {
     res.status(500).json({ message: error });
@@ -27,8 +32,7 @@ router.get("/lista-geral", async (req, res) => {
 });
 
 router.post("/novoItem" , async(req,res) => {
-  const teste = req.body;
-  console.log(teste) ; 
+
   try{
     const produtoNovo = await prisma.item.create({
         data: {
