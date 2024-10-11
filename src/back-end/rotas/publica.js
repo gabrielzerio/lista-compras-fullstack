@@ -32,7 +32,6 @@ router.post("/login", async (req,res) => {
         const user = await prisma.usuario.findUnique({
             where:{email:userInfo.email},
         });
-        console.log(user);
         if(!user){
             return res.status(400).json({message:"usuario não encontrado"});
         }

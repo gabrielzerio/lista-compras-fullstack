@@ -1,6 +1,6 @@
 
 export const fetchItens = async (token) => {
-    let itensNome=[];
+
   try {
     const response = await fetch("http://localhost:3000/lista-pessoal", {
       method: "GET",
@@ -12,10 +12,7 @@ export const fetchItens = async (token) => {
 
     if (response.ok) {
       const data = await response.json();
-      // console.log(data);
-      itensNome['solicitante'] = [data.nome, data.id, data.email];
-      itensNome['itens'] = data.itens;
-      return itensNome;
+      return data;
     } else {
       console.error("Erro ao buscar produtos", response.status);
     }
@@ -25,8 +22,6 @@ export const fetchItens = async (token) => {
 };
 
 export const fetchAllItens = async(token) => {
-  let itens=[];
-
 try {
   const response = await fetch("http://localhost:3000/lista-geral", {
     method: "GET",

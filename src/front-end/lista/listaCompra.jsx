@@ -19,6 +19,7 @@ const id_usuario = payload.id
   const [itens, setItens] = useState([]);
   const [nomeProduto, setNomeProduto] = useState("");
   const [qtdProduto, setQtdProduto] = useState(0);
+  const [showAll, setShowAll] = useState(false);
 
   const handleNomeProduto = (e) => {
     setNomeProduto(e.target.value);
@@ -30,28 +31,36 @@ const id_usuario = payload.id
   const handleAdicionaProduto = async () => {
     const novoItem = new ItemModel(nomeProduto, parseInt(qtdProduto), "66f708a785ec7101e05e6177", id_usuario, usuario);
     const retorno = await adicionaItem(novoItem, token);
-
-    console.log(retorno);
-    handleLista();
+    await handleLista();
   };
 
-  const handleLista = async () => {
-    const data = await fetchAllItens(token);
-     setItens(data);
-    // setSolicitante(data['solicitante']);
+  const handleCheckBox = (e) => {
+      setShowAll(e.target.checked)
   }
 
+  const handleLista = async () => {
+    if(showAll){
+    const data = await fetchItens(token);
+    setItens(data);
+    }else{
+    const data = await fetchAllItens(token);
+    setItens(data);
+    }
+    
+    // setSolicitante(data['solicitante']);
+  }
+  
   useEffect(() => {
     handleLista();
-      
-    },[])
+
+    },[showAll])
 
   return (
     <>
       <div className="bg-blue-400 p-3 text-lg font-bold">Usuario: {usuario}</div>
       <div className="p-4 bg-gray-50 rounded-lg shadow-md flex flex-col md:flex-row items-start md:items-center gap-4">
       <label>Meus Itens</label>
-      <input type="checkbox" className="indeterminate:bg-gray-300 " />
+      <input type="checkbox" checked={showAll} onChange={handleCheckBox} name="yn" className="indeterminate:bg-gray-300 w-6 h-6"  />
         <input
           className="border border-gray-300 rounded-lg p-2 w-full md:w-auto focus:outline-none focus:ring-2 focus:ring-blue-400"
           type="text"
