@@ -21,12 +21,12 @@ function LoginPage() {
       return;
     }
     setToken(token)                       //tratar os responses de forma correta
-    navigate("/lista-compra");
+    navigate("/listas");
   }
 
   return (
     <div className="max-w-md mx-auto mt-10 bg-white p-8 border border-gray-300 rounded-lg shadow-lg ">
-      <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Login testeeee</h2>
+      <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Login</h2>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4"> {/*flex flex-wrap flex-col*/}
         <input ref={emailRef} placeholder="Usuario" type="email" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none" />
         <input ref={passwordRef} placeholder="Senha" type="password" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none" />

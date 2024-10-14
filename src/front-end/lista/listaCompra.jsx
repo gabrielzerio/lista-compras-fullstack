@@ -42,7 +42,7 @@ const id_usuario = payload.id
     if(showAll){
     const data = await fetchItens(token);
     setItens(data);
-    }else{
+    }else{  
     const data = await fetchAllItens(token);
     setItens(data);
     }
