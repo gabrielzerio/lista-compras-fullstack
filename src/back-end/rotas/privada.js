@@ -49,4 +49,13 @@ router.post("/novoItem", async (req, res) => {
   }
 });
 
+router.get("/listas", async(req,res) => {
+  try{
+    const listas = await prisma.lista.findMany();
+    res.status(200).json(listas);
+  }catch(error){
+    res.status(500).json({message:error});
+  }
+})
+
 export default router;
