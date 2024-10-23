@@ -31,3 +31,10 @@ model Item {
   data       DateTime  // Usando DateTime ao invés de Timestamp
   lista      String    @db.ObjectId // Assumindo que 'lista' é uma referência a outra coleção
 }
+
+model Lista {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  data        DateTime
+  status      String
+  titulo      String
+}

@@ -21,7 +21,7 @@ function LoginPage() {
       return;
     }
     setToken(token)                       //tratar os responses de forma correta
-    navigate("/lista-compra");
+    navigate("/listas");
   }
 
   return (
