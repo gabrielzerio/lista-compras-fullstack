@@ -4,12 +4,6 @@
         {"src": "src/back-end/server.js",
         "use":"@vercel/node"
     }
-    ] ,
-    "router":[
-        {
-            "src":"(.*)",
-            "dest": "src/back-end/server.js"
-        }
     ]  
 
 }
