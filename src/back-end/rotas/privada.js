@@ -4,23 +4,16 @@ import express from "express";
 const prisma = new PrismaClient();
 const router = express.Router();
 
-router.get("/lista-pessoal", async (req, res) => {
-  try {
-    const produtos = await prisma.item.findMany({
-      where: { id_usuario: req.id_usuario },
-      include: {
-      usuario: true,
-      },
-    });
-    res.status(200).json(produtos);
-  } catch (error) {
-    res.status(500).json({ message: error });
-  }
-});
+router.get("/lista-pessoal/:listaId", async (req, res) => {
+  const { listaId } = req.params; // Obtém o ID da lista dos parâmetros da URL
+  const { id_usuario } = req; // Presumindo que req.id_usuario está definido por um middleware
 
-router.get("/lista-geral", async (req, res) => {
   try {
     const produtos = await prisma.item.findMany({
+      where: {
+        id_usuario, // Filtra pelo ID do usuário
+        lista: listaId // Filtra pela lista específica
+      },
       include: {
         usuario: true,
       },
@@ -30,6 +23,35 @@ router.get("/lista-geral", async (req, res) => {
     res.status(500).json({ message: error });
   }
 });
+
+
+router.get("/lista-geral/:listaId", async (req, res) => {
+  const { listaId } = req.params;
+
+  try {
+    const produtos = await prisma.item.findMany({
+      where: {
+        lista: listaId,
+      },
+      include: {
+        usuario: {
+          select: {
+            id: true,
+            nome: true,
+            email: true,
+            // senha não será incluída
+          },
+        },
+      },
+    });
+    
+    res.status(200).json(produtos);
+  } catch (error) {
+    res.status(500).json({ message: error });
+  }
+});
+
+
 
 router.post("/novoItem", async (req, res) => {
   try {

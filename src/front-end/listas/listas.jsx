@@ -1,33 +1,48 @@
 import { useState, useEffect } from "react";
 import { fetchListas } from "../scripts/scriptListaListas";
+import { useNavigate } from "react-router-dom";
 const token = localStorage.getItem("tkn");
 
-function Lista({ lista, status }) {
+function Lista({ lista }) {
+  const navigate = useNavigate();
+  const dataLocal = new Date(lista.data).toLocaleDateString("pt-BR", {
+    timeZone: "America/Sao_Paulo",
+  });
   return (
     <>
-    {console.log(lista)}
-      <button className="p-2 bg-green-400 text-center">{lista.titulo}</button>
+      <button
+        onClick={() => navigate(`/lista-compra?id=${lista.id}`)} // Passando o ID como query parameter
+        className={`p-2 text-center ${
+          lista.status === "ativo" ? "bg-green-400" : "bg-red-400"
+        }`}
+      >
+        {lista.titulo} {dataLocal}
+      </button>
     </>
   );
 }
 
 function ExibeListas() {
-  const [listas, setListas] = useState([]);
   const [ativas, setAtivas] = useState([]);
   const [inativas, setInativas] = useState([]);
 
   const getListas = async () => {
-    setListas(await fetchListas(token));
+    const listas = await fetchListas(token);
+
+    const listasAtivas = [];
+    const listasInativas = [];
+
     listas.forEach((lista) => {
       if (lista.status === "ativo") {
-        setAtivas(...ativas, lista);
+        listasAtivas.push(lista);
       } else {
-        setInativas(...inativas, lista);
+        listasInativas.push(lista);
       }
     });
+
+    setAtivas(listasAtivas);
+    setInativas(listasInativas);
   };
-
-
 
   useEffect(() => {
     getListas();
@@ -39,14 +54,14 @@ function ExibeListas() {
         <p>Listas ativas</p>
         <div className="p-2 flex gap-2 flex-col">
           {ativas.map((ativa) => (
-            <Lista lista={ativa} status={'ativo'}/>
+            <Lista key={ativa.id} lista={ativa} />
           ))}
         </div>
 
-        <p>Listas concluidas</p>
+        <p>Listas concluídas</p>
         <div className="p-2 flex gap-2 flex-col">
-        {inativas.map((inativa) => (
-            <Lista lista={inativa} status={'inativo'}/>
+          {inativas.map((inativa) => (
+            <Lista key={inativa.id} lista={inativa} />
           ))}
         </div>
       </div>
