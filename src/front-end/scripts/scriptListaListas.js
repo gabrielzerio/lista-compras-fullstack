@@ -1,6 +1,8 @@
+
 export const fetchListas = async (token) => {
+
   
-  const response = await fetch("http://localhost:3000/listas", {
+  const response = await fetch(`http://136.248.79.174:3000/listas`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
