@@ -6,7 +6,7 @@ export function Item({ produto, atualizarStatus }) {
 
   const dataLocal = new Date(produto.data).toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo", hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit', year: '2-digit' });
   const dataFormatada = dataLocal.replace(',', ''); // Remove a vírgula que aparece entre a data e a hora
-  
+  //comentario
   const itemClasse = status === 'inativo' ? 'line-through text-gray-500' : '';
 
   // Função para alternar o status do item
