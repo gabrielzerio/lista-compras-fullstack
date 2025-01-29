@@ -114,7 +114,6 @@ function ListaCompra() {
         <Item
           key={produto.id}
           produto={produto}
-          solicitante={produto.id_usuario}
         />
       ))}
     </>
