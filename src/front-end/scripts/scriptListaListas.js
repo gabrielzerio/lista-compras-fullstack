@@ -2,7 +2,7 @@
 export const fetchListas = async (token) => {
 
   
-  const response = await fetch(`http://136.248.79.174:3000/listas`, {
+  const response = await fetch(`http://144.22.200.113:3000/listas`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
