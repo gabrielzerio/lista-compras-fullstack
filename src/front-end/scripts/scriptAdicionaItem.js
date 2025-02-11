@@ -2,7 +2,7 @@
 export async function adicionaItem(item, token) {
     try {
     
-    const response = await fetch(`http://144.22.200.113:3000/novoItem`, {
+    const response = await fetch(`http://localhost:3000/novoItem`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

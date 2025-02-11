@@ -1,17 +1,22 @@
 import { useState, useEffect } from "react";
 import { fetchListas } from "../scripts/scriptListaListas";
 import { useNavigate } from "react-router-dom";
+import { useLista } from "../ListaContext";
 const token = localStorage.getItem("tkn");
 
 function Lista({ lista }) {
+  const { setListaSelecionada } = useLista();
   const navigate = useNavigate();
+  
   const dataLocal = new Date(lista.data).toLocaleDateString("pt-BR", {
     timeZone: "America/Sao_Paulo",
   });
   return (
     <>
       <button
-        onClick={() => navigate(`/lista-compra?id=${lista.id}`)} // Passando o ID como query parameter
+        onClick={() => {
+          setListaSelecionada(lista)
+           navigate(`/lista-compra?id=${lista.id}`)}} // Passando o ID como query parameter
         className={`p-2 text-center ${
           lista.status === "ativo" ? "bg-green-400" : "bg-red-400"
         }`}

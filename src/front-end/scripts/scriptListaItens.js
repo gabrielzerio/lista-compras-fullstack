@@ -1,8 +1,6 @@
-
-
 export const fetchItens = async (token, listaId) => { // Agora aceita listaId como argumento
   try {
-    const response = await fetch(`http://144.22.200.113:3000/lista-pessoal/${listaId}`, { // Passa listaId na URL
+    const response = await fetch(`http://localhost:3000/lista-pessoal/${listaId}`, { // Passa listaId na URL
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -24,7 +22,7 @@ export const fetchItens = async (token, listaId) => { // Agora aceita listaId co
 
 export const fetchAllItens = async (token, idLista) => {
   try {
-    const response = await fetch(`http://144.22.200.113:3000/lista-geral/${idLista}`, {
+    const response = await fetch(`http://localhost:3000/lista-geral/${idLista}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -45,7 +43,7 @@ export const fetchAllItens = async (token, idLista) => {
 
 export const updateItem = async (token, id) => {
   try {
-    const response = await fetch(`http://144.22.200.113:3000/itens/${id}`, {
+    const response = await fetch(`http://localhost:3000/itens/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

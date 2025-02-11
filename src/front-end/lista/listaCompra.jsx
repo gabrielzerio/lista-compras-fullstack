@@ -5,6 +5,8 @@ import { fetchItens } from "../scripts/scriptListaItens.js";
 import { fetchAllItens } from "../scripts/scriptListaItens.js";
 import { adicionaItem } from "../scripts/scriptAdicionaItem.js";
 import { useLocation } from "react-router-dom";
+import { useLista } from "../ListaContext.jsx";
+
 
 function ListaCompra() {
   const token = localStorage.getItem("tkn");
@@ -17,6 +19,7 @@ function ListaCompra() {
   const id_usuario = payload.id;
   const queryParams = new URLSearchParams(location.search);
   const listaId = queryParams.get("id"); // Recupera o valor do parâmetro 'id'
+  const {listaSelecionada} = useLista();
 
   const [itens, setItens] = useState([]);
   const [nomeProduto, setNomeProduto] = useState("");
@@ -59,13 +62,14 @@ function ListaCompra() {
   };
 
   useEffect(() => {
-    handleLista();
+    handleLista(); 
   }, [showAll]);
 
   return (
     <>
+     
       <div className="bg-blue-400 p-3 text-lg font-bold">
-        Usuario: {usuario}
+        Usuario: {usuario} | {listaSelecionada.titulo}
       </div>
       <div className="p-4 bg-gray-50 rounded-lg shadow-md flex flex-col md:flex-row items-start md:items-center gap-4">
         <label>Meus Itens</label>
