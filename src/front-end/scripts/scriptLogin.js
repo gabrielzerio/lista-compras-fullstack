@@ -3,7 +3,7 @@ async function handleLogin(login) {
  
     try {
       
-      const response = await fetch(`http://144.22.200.113:3000/login`, {
+      const response = await fetch(`http://192.168.0.170:3000/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(login),
@@ -12,6 +12,7 @@ async function handleLogin(login) {
         return null;
       }
       const token = await response.json(); // Extrai o JSON da resposta
+      
       return token;
     } catch (error) {
       return error;

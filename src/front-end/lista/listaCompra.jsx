@@ -4,17 +4,13 @@ import { ItemModel } from "../objetos/itemModel.js";
 import { fetchItens } from "../scripts/scriptListaItens.js";
 import { fetchAllItens } from "../scripts/scriptListaItens.js";
 import { adicionaItem } from "../scripts/scriptAdicionaItem.js";
+import { atualizaStatus } from "../scripts/scriptAtualizaItem.js";
 import { useLocation } from "react-router-dom";
 
 function ListaCompra() {
   const token = localStorage.getItem("tkn");
   const location = useLocation();
-  // Separa o payload (a segunda parte do token) e decodifica
-  const base64Url = token.split(".")[1];
-  const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-  const payload = JSON.parse(atob(base64));
-  const usuario = payload.nome;
-  const id_usuario = payload.id;
+  
   const queryParams = new URLSearchParams(location.search);
   const listaId = queryParams.get("id"); // Recupera o valor do parâmetro 'id'
 
@@ -34,9 +30,7 @@ function ListaCompra() {
     const novoItem = new ItemModel(
       nomeProduto,
       parseInt(qtdProduto),
-      listaId,
-      id_usuario,
-      usuario
+      listaId
     );
     const retorno = await adicionaItem(novoItem, token);
     await handleLista();
@@ -55,17 +49,30 @@ function ListaCompra() {
       setItens(data);
     }
 
-    // setSolicitante(data['solicitante']);
+  };
+
+  const handleChangeStatus = async (produto, status) => {
+    try {
+      // Aguarda a atualização do status
+      const resultado = await atualizaStatus(produto, status, token);
+    } catch (error) {
+      console.error('Erro ao atualizar status:', error);
+    }
+    handleLista()
   };
 
   useEffect(() => {
     handleLista();
   }, [showAll]);
 
+  // Separando os itens em riscados (comprados) e não riscados (não comprados)
+  const itensNaoRiscados = itens.filter(item => !item.checked);
+  const itensRiscados = itens.filter(item => item.checked);
+
   return (
     <>
       <div className="bg-blue-400 p-3 text-lg font-bold">
-        Usuario: {usuario}
+        {/* Usuario: {usuario} */}
       </div>
       <div className="p-4 bg-gray-50 rounded-lg shadow-md flex flex-col md:flex-row items-start md:items-center gap-4">
         <label>Meus Itens</label>
@@ -99,24 +106,43 @@ function ListaCompra() {
           Adicionar
         </button>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-2">
-      <div >
-        <span className="font-bold">Solicitante:</span>
-      </div>
-        <div>
-          <span className="font-bold">Item:</span>
+      
+      {/* Exibindo os itens ainda não riscados */}
+      <div className="mt-6">
+        <h2 className="text-xl font-bold">Itens não comprados</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-2">
+          <div >
+            <span className="font-bold">Solicitante:</span>
+          </div>
+          <div>
+            <span className="font-bold">Item:</span>
+          </div>
+          <div>
+            <span className="font-bold">Data:</span>
+          </div>
         </div>
-        <div>
-          <span className="font-bold">Data:</span>
-        </div>
+        {itensNaoRiscados.map((produto) => (
+          <Item
+            key={produto.id}
+            produto={produto}
+            handleChangeStatus={handleChangeStatus}
+          />
+        ))}
       </div>
-      {itens.map((produto) => (
-        <Item
-          key={produto.id}
-          produto={produto}
-        />
-      ))}
+
+      {/* Exibindo os itens riscados (comprados) */}
+      <div className="mt-6">
+        <h2 className="text-xl font-bold">Itens comprados</h2>
+        {itensRiscados.map((produto) => (
+          <Item
+            key={produto.id}
+            produto={produto}
+            handleChangeStatus={handleChangeStatus}
+          />
+        ))}
+      </div>
     </>
   );
 }
+
 export default ListaCompra;

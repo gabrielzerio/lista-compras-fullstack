@@ -12,6 +12,7 @@ function LoginPage() {
   function setToken(token){
     localStorage.setItem('tkn', token);
   }
+ 
 
   async function handleSubmit(e) {
     e.preventDefault();

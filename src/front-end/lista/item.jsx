@@ -1,19 +1,19 @@
 import { useState } from "react";
 import React from "react";
 /* eslint-disable react/prop-types */
-export function Item({ produto, atualizarStatus }) {
-  const [status, setStatus] = useState(produto.status); // Estado local para o status
+export function Item({ produto, handleChangeStatus }) {
+  const [status, setStatus] = useState(produto.checked); // Estado local para o status
 
   const dataLocal = new Date(produto.data).toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo", hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit', year: '2-digit' });
   const dataFormatada = dataLocal.replace(',', ''); // Remove a vírgula que aparece entre a data e a hora
   //comentario
-  const itemClasse = status === 'inativo' ? 'line-through text-gray-500' : '';
+  let itemClasse = status === true ? 'line-through text-black' : '';
 
   // Função para alternar o status do item
   const handleClick = async () => {
-    const novoStatus = status === 'ativo' ? 'inativo' : 'ativo'; // Alterna o status
-    setStatus(novoStatus); // Atualiza o estado local
-    atualizarStatus(produto.id, novoStatus); // Chama a função para atualizar no banco
+    let novoStatus = status === false ? true : false; // Alterna o status
+    setStatus(status === false ? true : false); // Atualiza o estado local
+    handleChangeStatus(produto, novoStatus); // Chama a função para atualizar no banco
   };
 
   return (
